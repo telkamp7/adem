@@ -19,7 +19,7 @@ given the data and theta parameter.
 The negative log likelihood of a geometric density given the data and the theta parameter.
 }
 \details{
-The geometric distribution with \code{prob}\eqn{= p} has density \deqn{p(x)=p(1-p)^x} for \eqn{x=0,1,2,\cdots,0<p\geq 1}.
+The geometric distribution with \code{prob}\eqn{= p} has density \deqn{p(x)=p(1-p)^x} for \eqn{x=0,1,2,\cdots,0<p\leq 1}.
 
 If an element of \code{x} is not integer, the results of \code{nll_geometric} is zero, with a warning.
 }
