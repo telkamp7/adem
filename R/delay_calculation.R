@@ -13,10 +13,18 @@
 #' @examples
 #' observed_delays <- rnbinom(100, 5, prob = 0.5)
 #' # Example 1: Optimize the geometric model
-#' result_geo <- delay_calculation(par = c(0.1, 0.5), x = observed_delays, delay_distribution = "geometric")
+#' result_geo <- delay_calculation(
+#'   par = c(0.1, 0.5),
+#'   x = observed_delays,
+#'   delay_distribution = "geometric"
+#'   )
 #'
 #' # Example 2: Optimize the negative binomial model
-#' result_nb <- delay_calculation(par = c(1, 0.2), x = observed_delays, delay_distribution = "negative.binomial")
+#' result_nb <- delay_calculation(
+#'   par = c(1, 0.2),
+#'   x = observed_delays,
+#'   delay_distribution = "negative.binomial"
+#'   )
 #'
 delay_calculation <- function(par, x, delay_distribution){
   if(delay_distribution == "geometric"){
@@ -24,7 +32,7 @@ delay_calculation <- function(par, x, delay_distribution){
     opt <- stats::optim(par = par, fn = nll_geometric, data = x)
   }else if(delay_distribution == "negative.binomial"){
     # Optimize the negative binomial model
-    opt <- stats::optim(par = par, fn = nll_exponential, data = x)
+    opt <- stats::optim(par = par, fn = nll_negative.binomial, data = x)
   }
   return(opt)
 }
