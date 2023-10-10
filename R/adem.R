@@ -1,15 +1,49 @@
 
-adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, theta_start, delay_distribution, delay_par, fit_distribution, data_start, data_end, data_frequency){
+#' Title
+#'
+#' Perform Automated Detection of Excess Mortality (ADEM) on time series death data.
+#'
+#' @param data A data frame containing the registered time series death data.
+#' @param data_delay A data frame containing delay information.
+#' @param fit_formula A formula specifying the model to be fit.
+#' @param k An integer specifying the window size for modeling.
+#' @param sig_value A numeric value controlling significance levels.
+#' @param threshold_method A character string specifying threshold calculation method.
+#'  It should be either "prediction" or "quantile".
+#' @param theta_start A numeric vector for initial parameter values in the model.
+#' @param delay_distribution A character string specifying the distribution for delay modeling.
+#'  It should be either "geometric" or "negative.binomial".
+#' @param delay_par A numeric scalar or vector for initial parameter values in delay modeling.
+#' @param fit_distribution A character string specifying the distribution for model fitting.
+#'  It should be either "poisson" or "negative.binomial".
+#' @param data_start A two-element numeric vector specifying the start date in the format c(year, period).
+#' @param data_end A two-element numeric vector specifying the end date in the format c(year, period).
+#' @param data_frequency An integer specifying the number of observations per year.
+#' @param units A character string specifying the time units for delay calculation.
+#'   Supported units include "secs", "mins", "hours", "days", "weeks", "months", and "years".
+#'
+#' @return A tibble containing model results, including predictions, thresholds, and parameter estimates.
+#' @export
+#'
+#' @examples
+adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, theta_start, delay_distribution, delay_par, fit_distribution, data_start, data_end, data_frequency, units){
 
   # Prepare the modelling data
-  data_modelling_df <- data_modelling(data = data, start = data_start, end = data_end, frequency = data_frequency)
+  data_modelling_df <- data_modelling(
+    data = data,
+    start = data_start,
+    end = data_end,
+    frequency = data_frequency
+    )
 
-  # Prepare registration delay data
-  data_delay_list <- data_registration_delay(data = data_delay, units = "days")
-
-  # Prepare registration delay data
-  # data_delay <- data %>%
-  #   select(WoR, delay_integer)
+  # # Prepare registration delay data
+  # data_delay_list <- data_registration_delay(
+  #   data = data_delay,
+  #   units = units
+  #   )
+  #
+  # # Extract data delay
+  # data_delay_df <- data_delay_list$delay_results
 
   # Count the number of observational weeks
   n_obs_all <- base::nrow(data_modelling_df)
@@ -20,10 +54,10 @@ adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, 
   # Allocate room for past outbreaks
   past_outliers <- tidyr::tibble()
 
-  # Initialize parameter for optimal delay
-  opt_delay_iter <- NULL
+  # # Initialize parameter for optimal delay
+  # opt_delay_iter <- NULL
 
-  # i <- 1
+  # Loop over time
   for(i in 1:(n_obs_all-k)){
 
     # Extract the period in this window
@@ -36,9 +70,14 @@ adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, 
     # ... and another one
     window_reference$t <- 0
 
-    # # ... and the registration delay data
-    # data_delay_window <- data_delay %>%
-    #   filter(WoR %in% weeksInWindow)
+    # # Calculate cut-off date
+    # delay_cutoff_iter <- ISOweek::ISOweek2date(
+    #   weekdate = paste0(
+    #     window_period$year[k], "-W", window_period$period[k],"-7")
+    #   )
+
+    # # Extract the delay times in this iteration
+    # window_delay <- data_delay_df[data_delay_df$DoR <= delay_cutoff_iter,]
 
     # Exclude past observations, if they are related to excessive deaths
     if(base::nrow(past_outliers) > 0){
@@ -53,12 +92,19 @@ adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, 
     # ... and another one
     window_reference$prop_reg <- 1
 
-    # Optimize the registration delay
-    # opt_delay_iter <- delay_calculation(par = delay_par, x = data_delay_window$delay_integer, delay_distribution = delay_distribution)
-    #
+    # # Optimize the registration delay
+    # opt_delay_iter <- delay_calculation(
+    #   par = delay_par,
+    #   x = window_delay$delay,
+    #   delay_distribution = delay_distribution
+    #   )
+
     # # Adjust the proportion of deaths registered
-    # y_window <- y_window %>%
-    #   mutate(prop_reg = delay_append(t = abs(t), opt_par = opt_delay_iter$par, delay_distribution = delay_distribution))
+    # window_period$prop_reg <- delay_append(
+    #   t = abs(window_period$t),
+    #   opt_par = opt_delay_iter$par,
+    #   delay_distribution = delay_distribution
+    #   )
 
     # Fit the model
     fit <- fit_model(fit_formula = fit_formula, data = window_period, start = theta_start, fit_distribution = fit_distribution)
@@ -73,12 +119,14 @@ adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, 
     opt_theta <- tidyr::tibble(Parameter = base::names(coef_fit), Estimate = coef_fit, Lower = CI_theta[,1], Upper = CI_theta[,2])
 
     # Calculate prediction and the lower and upper thresholds given the model
-    prediction_and_thresholds <- threshold_calculation(
-      df = window_reference,
-      fit = fit,
-      sig_value = sig_value,
-      threshold_method = threshold_method
-    )
+    prediction_and_thresholds <- base::suppressWarnings(
+      threshold_calculation(
+        df = window_reference,
+        fit = fit,
+        sig_value = sig_value,
+        threshold_method = threshold_method
+        )
+      )
 
     # Collect the results
     results <- dplyr::bind_rows(
@@ -128,6 +176,7 @@ adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, 
 
     # Construct parameter guess for next iteration
     theta_start <- coef_fit * 0.7
+    # delay_par <- delay_par * 0.95
 
   }
   return(results)

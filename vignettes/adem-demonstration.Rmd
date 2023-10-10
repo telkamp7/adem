@@ -1,0 +1,113 @@
+---
+title: "Automated Detection of Excess Mortality: A Gentle Introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Automated Detection of Excess Mortality: A Gentle Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(adem)
+library(dplyr)
+library(ggplot2)
+library(forecast) # Loaded to make nice plots
+library(lubridate)
+
+# Set the ggplot theme to black and white
+theme_set(theme() + theme_bw())
+
+```
+
+## Discussion
+
+In this vignette, we have introduced an automated method for detecting excess mortality in death time series data using the `adem` package. We applied this method to the Monthly Deaths from Lung Disease in the UK dataset from the `MASS` package.
+
+
+In this vignette...
+
+```{r data}
+
+# Load Monthly Deaths from Lung Disease in the UK from MASS
+deaths <- MASS::deaths
+
+# Visualize the data
+autoplot(deaths)
+
+```
+
+The model used for automated detection of excess mortality is a generalized linear model (GLM) with a Poisson family. It can be represented by the following equation:
+
+\[ \log(\text{deaths}) = \beta_0 + \beta_1 \cdot t + \beta_2 \cdot \sin\left(\frac{\pi}{6} \cdot \text{period}\right) + \beta_3 \cdot \cos\left(\frac{\pi}{6} \cdot \text{period}\right) \]
+
+Here \(\log(\text{deaths})\) represents the natural logarithm of the response variable, "deaths," which follows a Poisson distribution. \(\beta_0\), \(\beta_1\), \(\beta_2\), and \(\beta_3\) are coefficients to be estimated by the GLM. \(t\) represents the linear time trend. \(\sin\left(\frac{\pi}{6} \cdot \text{period}\right)\) represents the sine component of the seasonality in the data, with a period of one year (assuming "period" represents time in years). \(\cos\left(\frac{\pi}{6} \cdot \text{period}\right)\) represents the cosine component of the seasonality in the data, also with a period of one year.
+
+This equation captures the relationship between the logarithm of deaths and the linear time trend as well as the sine and cosine components of the seasonality in the data. The coefficients (\(\beta_0\), \(\beta_1\), \(\beta_2\), and \(\beta_3\)) determine the strength and direction of these relationships and are estimated by the GLM based on the observed data.
+
+
+```{r process_data}
+
+# Define the model formula
+fit_formula = deaths ~ 1 + t + sin(pi/6*period) + cos(pi/6*period)
+
+# Set other parameters
+k <- 12*2
+sig_value = 0.05
+threshold_method = "quantile"
+theta_start <- c(log(mean(deaths)), 0, 0, 0)
+fit_distribution <- "poisson"
+data_start <- c(1974, 1)
+data_end <- c(1979, 12)
+data_frequency <- 12
+
+# Fit the automated detection of excess mortality function
+adem_results <- adem(data = c(deaths),
+     fit_formula = fit_formula,
+     k = k, 
+     sig_value = sig_value, 
+     threshold_method = threshold_method, 
+     theta_start = theta_start,
+     fit_distribution = fit_distribution, 
+     data_start = data_start,
+     data_end = data_end,
+     data_frequency = data_frequency)
+
+# Visualize the results
+adem_results %>%
+  mutate(Time = ym(paste(year, period, sep = "-"))) %>%
+  ggplot(mapping = aes(x = Time)) +
+  geom_point(mapping = aes(y = deaths, shape = outlier)) +
+  geom_line(mapping = aes(y = y_hat)) +
+  geom_ribbon(mapping = aes(ymin = lower_threshold, ymax = upper_threshold), alpha = 0.3)
+
+```
+
+## Conclusion
+
+Automated detection of excess mortality is a valuable tool for public health and epidemiological research. By applying the `adem` package to real-world death time series data, we can identify unusual mortality patterns that may be of interest to policymakers and researchers. This method provides an objective and data-driven approach to monitoring mortality trends and can be a valuable addition to the toolkit of health professionals and data analysts.
+
+### Excess Deaths Detection
+
+- The automated detection of excess mortality using the `adem` package has successfully identified periods of excess deaths within the time series data.
+- Excess deaths are crucial indicators of unusual mortality events that may require further investigation and public health interventions.
+- The detection of excess deaths is based on a comparison between observed death counts and upper prediction thresholds. When observed deaths surpass these thresholds, it signifies an elevated mortality rate beyond what the model predicts.
+
+### Underflow Deaths
+
+- In addition to detecting excess deaths, the model also identifies periods with lower-than-expected mortality, known as "underflow deaths."
+- These underflow periods can be equally important, as they indicate a decrease in mortality rates compared to the model's predictions.
+- Understanding underflow periods may provide insights into factors such as improved healthcare or preventive measures that contribute to reduced mortality during certain time frames.
+
+
+
+
+
+
+

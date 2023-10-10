@@ -14,6 +14,11 @@ Imports:
     base,
     ciTools,
     dplyr,
+    ISOweek,
     MASS,
     stats,
     tidyr
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

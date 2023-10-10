@@ -29,7 +29,9 @@
 delay_calculation <- function(par, x, delay_distribution){
   if(delay_distribution == "geometric"){
     # Optimize the geometric model
-    opt <- stats::optim(par = par, fn = nll_geometric, data = x)
+    opt <- stats::optimise(f = nll_geometric, interval = c(0,1), data = x)
+    # Rename the entries, to conform with the output from optim
+    names(opt) <- c("par", "value")
   }else if(delay_distribution == "negative.binomial"){
     # Optimize the negative binomial model
     opt <- stats::optim(par = par, fn = nll_negative.binomial, data = x)
