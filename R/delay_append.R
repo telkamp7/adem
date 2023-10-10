@@ -1,4 +1,4 @@
-#' Title
+#' Append Registration Delays
 #'
 #' This function calculates the cumulative distribution function (CDF) of registration delays
 #' based on a specified delay distribution model.
