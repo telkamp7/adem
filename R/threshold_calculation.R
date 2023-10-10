@@ -1,11 +1,13 @@
-#' Title
+#' Threshold Calculator
 #'
-#' @param df A data.frame of new data.
-#' @param fit An object of class `glm` or `negbin`. Predictions and thresholds are made with this object.
-#' @param sig_value A numeric value between 0 and 1. Controls the significance level of the interval estimates.
-#' @param threshold_method A character string that defines the method used to calculate the thresholds. Choose between `prediction` or `quantile`.
+#' Calculate prediction intervals or quantile thresholds for a given data frame using a fitted model.
 #'
-#' @return A data.frame, `df`, with predicted values, upper and lower bounds attached.
+#' @param df A data.frame of new data for which predictions and thresholds are calculated.
+#' @param fit An object of class `glm` or `negbin`. This object is used to make predictions and calculate thresholds.
+#' @param sig_value A numeric value between 0 and 1, controlling the significance level of the interval estimates.
+#' @param threshold_method A character string defining the method used to calculate thresholds. Choose between `prediction` or `quantile`.
+#'
+#' @return A data.frame, `df`, with predicted values and upper and lower bounds attached.
 #' @export
 #'
 #' @examples

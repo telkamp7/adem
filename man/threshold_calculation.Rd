@@ -2,24 +2,24 @@
 % Please edit documentation in R/threshold_calculation.R
 \name{threshold_calculation}
 \alias{threshold_calculation}
-\title{Title}
+\title{Threshold Calculator}
 \usage{
 threshold_calculation(df, fit, sig_value, threshold_method)
 }
 \arguments{
-\item{df}{A data.frame of new data.}
+\item{df}{A data.frame of new data for which predictions and thresholds are calculated.}
 
-\item{fit}{An object of class \code{glm} or \code{negbin}. Predictions and thresholds are made with this object.}
+\item{fit}{An object of class \code{glm} or \code{negbin}. This object is used to make predictions and calculate thresholds.}
 
-\item{sig_value}{A numeric value between 0 and 1. Controls the significance level of the interval estimates.}
+\item{sig_value}{A numeric value between 0 and 1, controlling the significance level of the interval estimates.}
 
-\item{threshold_method}{A character string that defines the method used to calculate the thresholds. Choose between \code{prediction} or \code{quantile}.}
+\item{threshold_method}{A character string defining the method used to calculate thresholds. Choose between \code{prediction} or \code{quantile}.}
 }
 \value{
-A data.frame, \code{df}, with predicted values, upper and lower bounds attached.
+A data.frame, \code{df}, with predicted values and upper and lower bounds attached.
 }
 \description{
-Title
+Calculate prediction intervals or quantile thresholds for a given data frame using a fitted model.
 }
 \examples{
 # Fit a Poisson model
