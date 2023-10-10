@@ -39,7 +39,7 @@ In this vignette...
 deaths <- MASS::deaths
 
 # Visualize the data
-autoplot(deaths)
+forecast::autoplot(deaths)
 
 ```
 
@@ -81,11 +81,11 @@ adem_results <- adem(data = c(deaths),
 
 # Visualize the results
 adem_results %>%
-  mutate(Time = ym(paste(year, period, sep = "-"))) %>%
-  ggplot(mapping = aes(x = Time)) +
-  geom_point(mapping = aes(y = deaths, shape = outlier)) +
-  geom_line(mapping = aes(y = y_hat)) +
-  geom_ribbon(mapping = aes(ymin = lower_threshold, ymax = upper_threshold), alpha = 0.3)
+  dplyr::mutate(Time = lubridate::ym(paste(year, period, sep = "-"))) %>%
+  ggplot2::ggplot(mapping = aes(x = Time)) +
+  ggplot2::geom_point(mapping = aes(y = deaths, shape = outlier)) +
+  ggplot2::geom_line(mapping = aes(y = y_hat)) +
+  ggplot2::geom_ribbon(mapping = aes(ymin = lower_threshold, ymax = upper_threshold), alpha = 0.3)
 
 ```
 

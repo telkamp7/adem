@@ -26,6 +26,37 @@
 #' @export
 #'
 #' @examples
+#' # Load Monthly Deaths from Lung Disease in the UK from MASS
+#' deaths <- MASS::deaths
+#'
+#' # Define the model formula
+#' fit_formula = deaths ~ 1 + t + sin(pi/6*period) + cos(pi/6*period)
+#'
+#' # Set other parameters
+#' k <- 12*2
+#' sig_value = 0.05
+#' threshold_method = "quantile"
+#' theta_start <- c(log(mean(deaths)), 0, 0, 0)
+#' fit_distribution <- "poisson"
+#' data_start <- c(1974, 1)
+#' data_end <- c(1979, 12)
+#' data_frequency <- 12
+#'
+#' # Fit the automated detection of excess mortality function
+#' adem_results <- adem(data = c(deaths),
+#' fit_formula = fit_formula,
+#' k = k,
+#' sig_value = sig_value,
+#' threshold_method = threshold_method,
+#' theta_start = theta_start,
+#' fit_distribution = fit_distribution,
+#' data_start = data_start,
+#' data_end = data_end,
+#' data_frequency = data_frequency)
+#'
+#' # Print the results
+#' print(adem_results)
+
 adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, theta_start, delay_distribution, delay_par, fit_distribution, data_start, data_end, data_frequency, units){
 
   # Prepare the modelling data
@@ -171,7 +202,7 @@ adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, 
 
     # Update the trend column
     if(base::nrow(past_outliers) > 0){
-      past_outliers <- mutate(.data = past_outliers, t = t - 1)
+      past_outliers <- dplyr::mutate(.data = past_outliers, t = t - 1)
     }
 
     # Construct parameter guess for next iteration

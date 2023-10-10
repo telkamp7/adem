@@ -14,11 +14,14 @@ Imports:
     base,
     ciTools,
     dplyr,
-    ISOweek,
     MASS,
     stats,
     tidyr
 Suggests: 
     knitr,
+    forecast,
+    ggplot2,
+    ISOweek,
+    lubridate,
     rmarkdown
 VignetteBuilder: knitr
