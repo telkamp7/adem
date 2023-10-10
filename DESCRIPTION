@@ -13,5 +13,7 @@ RoxygenNote: 7.2.3
 Imports: 
     base,
     ciTools,
+    dplyr,
     MASS,
-    stats
+    stats,
+    tidyr

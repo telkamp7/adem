@@ -1,4 +1,4 @@
-#' Title
+#' Preprocess Data for Modelling
 #'
 #' Preprocess and format time series data for modeling.
 #'
@@ -41,7 +41,7 @@ data_modelling <- function(data, start, end, frequency){
 
   # Gather the data in 'res'
   res <- base::data.frame(deaths = data, year = year_integer, period = period_integer)
-  #... and return it
+  # ... and return it
   return(res)
 }
 

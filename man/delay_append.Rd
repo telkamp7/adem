@@ -2,7 +2,7 @@
 % Please edit documentation in R/delay_append.R
 \name{delay_append}
 \alias{delay_append}
-\title{Title}
+\title{Append Registration Delays}
 \usage{
 delay_append(t, opt_par, delay_distribution)
 }
