@@ -16,13 +16,9 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(adem)
-library(dplyr)
-library(ggplot2)
-library(forecast) # Loaded to make nice plots
-library(lubridate)
 
 # Set the ggplot theme to black and white
-theme_set(theme() + theme_bw())
+ggplot2::theme_set(ggplot2::theme() + ggplot2::theme_bw())
 
 ```
 
@@ -80,12 +76,17 @@ adem_results <- adem(data = c(deaths),
      data_frequency = data_frequency)
 
 # Visualize the results
-adem_results %>%
-  dplyr::mutate(Time = lubridate::ym(paste(year, period, sep = "-"))) %>%
-  ggplot2::ggplot(mapping = aes(x = Time)) +
-  ggplot2::geom_point(mapping = aes(y = deaths, shape = outlier)) +
-  ggplot2::geom_line(mapping = aes(y = y_hat)) +
-  ggplot2::geom_ribbon(mapping = aes(ymin = lower_threshold, ymax = upper_threshold), alpha = 0.3)
+dplyr::`%>%`(
+  adem_results,
+  dplyr::`%>%`(
+    mutate(Time = lubridate::ym(paste(year, period, sep = "-"))),
+    ggplot2::ggplot(mapping = aes(x = Time)) +
+      ggplot2::geom_point(mapping = aes(y = deaths, shape = outlier)) +
+      ggplot2::geom_line(mapping = aes(y = y_hat)) +
+      ggplot2::geom_ribbon(mapping = aes(ymin = lower_threshold, ymax = upper_threshold), alpha = 0.3) +
+      ggplot2::theme(legend.position = "top")
+    )
+  )
 
 ```
 

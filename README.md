@@ -4,6 +4,8 @@
 # adem
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/telkamp7/adem/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/telkamp7/adem/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of adem is to …
