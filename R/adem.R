@@ -25,6 +25,8 @@
 #' @return A tibble containing model results, including predictions, thresholds, and parameter estimates.
 #' @export
 #'
+#' @importFrom rlang .data
+#'
 #' @examples
 #' # Load Monthly Deaths from Lung Disease in the UK from MASS
 #' deaths <- MASS::deaths
@@ -168,9 +170,9 @@ adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, 
           y_hat = prediction_and_thresholds$prediction,
           lower_threshold = prediction_and_thresholds$lwr_threshold,
           upper_threshold = prediction_and_thresholds$upr_threshold,
-          underflow_deaths = deaths <= lower_threshold,
-          excess_deaths = deaths >= upper_threshold,
-          outlier = underflow_deaths | excess_deaths,
+          underflow_deaths = .data$deaths <= .data$lower_threshold,
+          excess_deaths = .data$deaths >= .data$upper_threshold,
+          outlier = .data$underflow_deaths | .data$excess_deaths,
           par = list(opt_theta),
           # opt_delay_par = list(opt_delay_iter$par),
           aic = fit$aic,
@@ -195,7 +197,7 @@ adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, 
         past_outliers,
         dplyr::`%>%`(
           results[i,],
-          dplyr::select(deaths, year, period, t)
+          dplyr::select(.data$deaths, .data$year, .data$period, .data$t)
         )
       )
     }

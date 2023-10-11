@@ -24,9 +24,35 @@
 #'   delay_distribution = "negative.binomial"
 #'   )
 delay_append <- function(t, opt_par, delay_distribution){
+  if(!delay_distribution %in% c("geometric", "negative.binomial"))
+    stop(
+      paste0(
+        "The delay_distribution '",
+        delay_distribution,
+        "' is not supported. Choose between 'geometric' or 'negative.binomial'"
+        )
+      )
   if(delay_distribution == "geometric"){
+    if(length(opt_par) > 1)
+      stop(
+        paste(
+          "The 'geometric' distribution only takes scalar 'prob' parameters not c(",
+          paste(opt_par, collapse = ","),
+          ")",
+          sep = ""
+        )
+      )
     ans <- stats::pgeom(q = t, prob = opt_par)
   }else if(delay_distribution == "negative.binomial"){
+    if(length(opt_par) != 2)
+      stop(
+        paste(
+          "The 'negative.binomial' distribution expects a vector of size two",
+          " giving the 'size' and 'prob', not c(",
+          paste(opt_par, collapse = ","),")",
+          sep = ""
+        )
+      )
     ans <- stats::pnbinom(q = t, size = opt_par[1], prob = opt_par[2])
   }
   return(ans)
