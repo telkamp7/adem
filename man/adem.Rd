@@ -6,7 +6,7 @@
 \usage{
 adem(
   data,
-  data_delay,
+  data_delay = NULL,
   fit_formula,
   k,
   sig_value = 0.05,

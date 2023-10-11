@@ -60,7 +60,7 @@
 #' print(adem_results)
 
 adem <- function(
-    data, data_delay, fit_formula, k, sig_value = 0.05,
+    data, data_delay = NULL, fit_formula, k, sig_value = 0.05,
     threshold_method = c("prediction", "quantile"),
     theta_start,
     delay_distribution = c("geometric", "negative.binomial"),
@@ -85,14 +85,17 @@ adem <- function(
     frequency = data_frequency
     )
 
-  # # Prepare registration delay data
-  data_delay_list <- data_registration_delay(
-    data = data_delay,
-    units = units
+  if(is.null(data_delay) == FALSE){
+    # Prepare registration delay data
+    data_delay_list <- data_registration_delay(
+      data = data_delay,
+      units = units
     )
-
-  # Extract data delay
-  data_delay_df <- data_delay_list$delay_results
+    # Extract data delay
+    data_delay_df <- data_delay_list$delay_results
+    # Initialize parameter for optimal delay
+    opt_delay_iter <- NULL
+  }
 
   # Count the number of observational weeks
   n_obs_all <- base::nrow(data_modelling_df)
@@ -102,9 +105,6 @@ adem <- function(
 
   # Allocate room for past outbreaks
   past_outliers <- tidyr::tibble()
-
-  # # Initialize parameter for optimal delay
-  opt_delay_iter <- NULL
 
   # Loop over time
   for(i in 1:(n_obs_all-k)){
@@ -122,12 +122,12 @@ adem <- function(
     # # Calculate cut-off date
     delay_cutoff_iter <- ISOweek::ISOweek2date(
       weekdate = paste0(
-        window_period$year[k], "-W", window_period$period[k],"-7"
+        window_period$year[k],
+        "-W",
+        base::sprintf(fmt = "%02d", window_period$period[k]),
+        "-7"
         )
       )
-
-    # # Extract the delay times in this iteration
-    window_delay <- data_delay_df[data_delay_df$DoR <= delay_cutoff_iter,]
 
     # Exclude past observations, if they are related to excessive deaths
     if(base::nrow(past_outliers) > 0){
@@ -142,19 +142,23 @@ adem <- function(
     # ... and another one
     window_reference$prop_reg <- 1
 
-    # # Optimize the registration delay
-    opt_delay_iter <- delay_calculation(
-      par = delay_par,
-      x = window_delay$delay,
-      delay_distribution = delay_distribution
+    if(is.null(data_delay) == FALSE){
+      # Extract the delay times in this iteration
+      window_delay <- data_delay_df[data_delay_df$DoR <= delay_cutoff_iter,]
+      # Optimize the registration delay
+      opt_delay_iter <- delay_calculation(
+        par = delay_par,
+        x = window_delay$delay,
+        delay_distribution = delay_distribution
       )
-
-    # # Adjust the proportion of deaths registered
-    window_period$prop_reg <- delay_append(
-      t = abs(window_period$t),
-      opt_par = opt_delay_iter$par,
-      delay_distribution = delay_distribution
+      # Adjust the proportion of deaths registered
+      window_period$prop_reg <- delay_append(
+        t = abs(window_period$t),
+        opt_par = opt_delay_iter$par,
+        delay_distribution = delay_distribution
       )
+      delay_par <- opt_delay_iter$par * 0.95
+    }
 
     # Fit the model
     fit <- fit_model(fit_formula = fit_formula, data = window_period, start = theta_start, fit_distribution = fit_distribution)
@@ -191,7 +195,7 @@ adem <- function(
           excess_deaths = .data$deaths >= .data$upper_threshold,
           outlier = .data$underflow_deaths | .data$excess_deaths,
           par = list(opt_theta),
-          # opt_delay_par = list(opt_delay_iter$par),
+          # opt_delay_par = dplyr::if_else(exists("opt_delay_iter"), opt_delay_iter$par, NULL), # Figure out a good way to include this
           aic = fit$aic,
           df_residual = fit$df.residual,
           df_null = fit$df.null,
@@ -226,7 +230,6 @@ adem <- function(
 
     # Construct parameter guess for next iteration
     theta_start <- coef_fit * 0.7
-    delay_par <- delay_par * 0.95
 
   }
   return(results)
