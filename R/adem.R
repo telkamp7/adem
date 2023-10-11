@@ -59,7 +59,23 @@
 #' # Print the results
 #' print(adem_results)
 
-adem <- function(data, data_delay, fit_formula, k, sig_value, threshold_method, theta_start, delay_distribution, delay_par, fit_distribution, data_start, data_end, data_frequency, units){
+adem <- function(
+    data, data_delay, fit_formula, k, sig_value = 0.05,
+    threshold_method = c("prediction", "quantile"),
+    theta_start,
+    delay_distribution = c("geometric", "negative.binomial"),
+    delay_par,
+    fit_distribution = c("negative.binomial", "poisson"),
+    data_start, data_end, data_frequency,
+    units = c("auto", "secs", "mins", "hours", "days", "weeks")
+    )
+  {
+
+  # Throw an error if any of the inputs are not supported
+  threshold_method <- rlang::arg_match(threshold_method)
+  delay_distribution <- rlang::arg_match(delay_distribution)
+  fit_distribution <- rlang::arg_match(fit_distribution)
+  units <- rlang::arg_match(units)
 
   # Prepare the modelling data
   data_modelling_df <- data_modelling(

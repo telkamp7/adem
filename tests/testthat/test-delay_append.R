@@ -16,7 +16,7 @@ test_that("Gives error for non-numeric inputs", {
 })
 test_that("Gives error for unsupported 'delay_distributions'", {
   expect_error(delay_append(t = "test", opt_par = c(5,0.5), delay_distribution = "test"),
-               "'arg' should be one of")
+               "`delay_distribution` must be one of")
 })
 test_that("Gives error for unsupported number of 'opt_par'", {
   expect_error(delay_append(t = c(1), opt_par = c(0.1,0.5), delay_distribution = "geometric"),

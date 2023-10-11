@@ -9,16 +9,16 @@ adem(
   data_delay,
   fit_formula,
   k,
-  sig_value,
-  threshold_method,
+  sig_value = 0.05,
+  threshold_method = c("prediction", "quantile"),
   theta_start,
-  delay_distribution,
+  delay_distribution = c("geometric", "negative.binomial"),
   delay_par,
-  fit_distribution,
+  fit_distribution = c("negative.binomial", "poisson"),
   data_start,
   data_end,
   data_frequency,
-  units
+  units = c("auto", "secs", "mins", "hours", "days", "weeks")
 )
 }
 \arguments{

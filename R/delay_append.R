@@ -26,7 +26,7 @@
 delay_append <- function(t, opt_par, delay_distribution = c("geometric", "negative.binomial")){
 
   # Throw error if 'delay_distribution' is not one of supported values
-  delay_distribution <- match.arg(arg = delay_distribution)
+  delay_distribution <- rlang::arg_match(delay_distribution)
 
   if(delay_distribution == "geometric"){
     if(length(opt_par) > 1)
