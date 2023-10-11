@@ -218,7 +218,7 @@ adem <- function(
         past_outliers,
         dplyr::`%>%`(
           results[i,],
-          dplyr::select(.data$deaths, .data$year, .data$period, .data$t)
+          dplyr::select("deaths", "year", "period", "t")
         )
       )
     }
