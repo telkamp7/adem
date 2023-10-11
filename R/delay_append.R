@@ -23,15 +23,11 @@
 #'   opt_par = c(5, 0.2),
 #'   delay_distribution = "negative.binomial"
 #'   )
-delay_append <- function(t, opt_par, delay_distribution){
-  if(!delay_distribution %in% c("geometric", "negative.binomial"))
-    stop(
-      paste0(
-        "The delay_distribution '",
-        delay_distribution,
-        "' is not supported. Choose between 'geometric' or 'negative.binomial'"
-        )
-      )
+delay_append <- function(t, opt_par, delay_distribution = c("geometric", "negative.binomial")){
+
+  # Throw error if 'delay_distribution' is not one of supported values
+  delay_distribution <- match.arg(arg = delay_distribution)
+
   if(delay_distribution == "geometric"){
     if(length(opt_par) > 1)
       stop(

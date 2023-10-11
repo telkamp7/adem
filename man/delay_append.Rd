@@ -4,7 +4,11 @@
 \alias{delay_append}
 \title{Append Registration Delays}
 \usage{
-delay_append(t, opt_par, delay_distribution)
+delay_append(
+  t,
+  opt_par,
+  delay_distribution = c("geometric", "negative.binomial")
+)
 }
 \arguments{
 \item{t}{A numeric vector of time points at which to calculate the CDF.}
