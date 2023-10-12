@@ -132,10 +132,8 @@ adem <- function(
 
     # Exclude past observations, if they are related to excessive deaths
     if(base::nrow(past_outliers) > 0){
-      window_period <- dplyr::`%>%`(
-        window_period,
+      window_period <- window_period %>%
         dplyr::setdiff(past_outliers)
-      )
     }
 
     # Add proportion of deaths registered
@@ -186,8 +184,7 @@ adem <- function(
     # Collect the results
     results <- dplyr::bind_rows(
       results,
-      dplyr::`%>%`(
-        window_reference,
+      window_reference %>%
         dplyr::mutate(
           y_hat = prediction_and_thresholds$prediction,
           lower_threshold = prediction_and_thresholds$lwr_threshold,
@@ -206,7 +203,6 @@ adem <- function(
           converged = fit$converged,
           window_data = list(fit$data)
           )
-        )
       )
 
     # Extract outlier information for this iteration
@@ -217,10 +213,8 @@ adem <- function(
     if(outlier == TRUE){
       past_outliers <- dplyr::bind_rows(
         past_outliers,
-        dplyr::`%>%`(
-          results[i,],
+        results[i,] %>%
           dplyr::select("deaths", "year", "period", "t")
-        )
       )
     }
 

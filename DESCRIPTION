@@ -13,6 +13,7 @@ Imports:
     ciTools,
     dplyr,
     lifecycle,
+    magrittr,
     MASS,
     rlang,
     stats,
