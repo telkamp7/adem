@@ -19,8 +19,7 @@ Imports:
     MASS,
     rlang,
     stats,
-    tibble,
-    tidyr
+    tibble
 Suggests: 
     knitr,
     forecast,

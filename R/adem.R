@@ -102,10 +102,10 @@ adem <- function(
   n_obs_all <- base::nrow(data_modelling_df)
 
   # Allocate space for the results
-  results <- tidyr::tibble()
+  results <- tibble::tibble()
 
   # Allocate room for past outbreaks
-  past_outliers <- tidyr::tibble()
+  past_outliers <- tibble::tibble()
 
   # Loop over time
   for(i in 1:(n_obs_all-k)){
@@ -169,7 +169,7 @@ adem <- function(
     base::suppressMessages(CI_theta <- stats::confint(object = fit))
 
     # Gather optimized parameter estimates
-    opt_theta <- tidyr::tibble(Parameter = base::names(coef_fit), Estimate = coef_fit, Lower = CI_theta[,1], Upper = CI_theta[,2])
+    opt_theta <- tibble::tibble(Parameter = base::names(coef_fit), Estimate = coef_fit, Lower = CI_theta[,1], Upper = CI_theta[,2])
 
     # Calculate prediction and the lower and upper thresholds given the model
     prediction_and_thresholds <- base::suppressWarnings(
