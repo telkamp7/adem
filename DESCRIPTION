@@ -1,7 +1,9 @@
 Package: adem
 Title: Automated Detection of Excess Mortality
 Version: 0.0.0.9000
-Author@R: person("Kasper", "Schou Telkamp", email = "KSST@ssi.dk", role = c("aut", "cre"))
+Authors@R: 
+    person("Kasper", "Schou Telkamp", ,"ksst@ssi.dk", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0001-5126-0190"))
 Description: This package facilitates automated detection of excess mortality (adem) 
     using an innovative algorithm based on generalized linear models.
 License: MIT + file LICENSE

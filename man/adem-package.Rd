@@ -8,4 +8,8 @@
 \description{
 This package facilitates automated detection of excess mortality (adem) using an innovative algorithm based on generalized linear models.
 }
+\author{
+\strong{Maintainer}: Kasper Schou Telkamp \email{ksst@ssi.dk} (\href{https://orcid.org/0009-0001-5126-0190}{ORCID})
+
+}
 \keyword{internal}
