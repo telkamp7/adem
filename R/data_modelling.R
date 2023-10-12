@@ -25,31 +25,26 @@
 #' formatted_data <- data_modelling(data = deaths, start = start_date, end = end_date, frequency = 12)
 data_modelling <- function(data, start, end, frequency){
 
-  if(base::class(data) == "ts"){
-    res <- tsibble::as_tsibble(data)
-  }else if(base::class(data) == "numeric"){
-    # Count the number of observations
-    n_data <- base::length(data)
+  # Count the number of observations
+  n_data <- base::length(data)
 
-    # Calculate the start in a numeric format
-    start_numeric <- start[1L] + (start[2L] - 1)/frequency
+  # Calculate the start in a numeric format
+  start_numeric <- start[1L] + (start[2L] - 1)/frequency
 
-    # Calculate the end in a numeric format
-    end_numeric <- end[1L] + (end[2L] - 1)/frequency
+  # Calculate the end in a numeric format
+  end_numeric <- end[1L] + (end[2L] - 1)/frequency
 
-    # Calculate the time in a numeric format
-    time_numeric <- base::seq(from = start_numeric, to = end_numeric, length.out = n_data)
+  # Calculate the time in a numeric format
+  time_numeric <- base::seq(from = start_numeric, to = end_numeric, length.out = n_data)
 
-    # Extract the year
-    year_integer <- base::as.integer(trunc(time_numeric))
-    # .. and the period within a year
-    period_integer <- base::round((time_numeric - year_integer) * frequency) + 1L
+  # Extract the year
+  year_integer <- base::as.integer(trunc(time_numeric))
+  # .. and the period within a year
+  period_integer <- base::round((time_numeric - year_integer) * frequency) + 1L
 
-    # Gather the data in 'res'
-    res <- base::data.frame(deaths = data, year = year_integer, period = period_integer)
-    # ... and return it
-  }
-
+  # Gather the data in 'res'
+  res <- base::data.frame(deaths = data, year = year_integer, period = period_integer)
+  # ... and return it
 
   return(res)
 }
