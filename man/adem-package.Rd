@@ -2,14 +2,10 @@
 % Please edit documentation in R/adem-package.R
 \docType{package}
 \name{adem-package}
-\alias{adem}
 \alias{adem-package}
-\title{adem: What the Package Does (One Line, Title Case)}
+\alias{_PACKAGE}
+\title{adem: Automated Detection of Excess Mortality}
 \description{
-What the package does (one paragraph).
-}
-\author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
-
+This package facilitates automated detection of excess mortality (adem) using an innovative algorithm based on generalized linear models.
 }
 \keyword{internal}

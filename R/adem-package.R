@@ -1,4 +1,5 @@
 #' @keywords internal
+#' @aliases adem-package
 "_PACKAGE"
 
 ## usethis namespace: start
