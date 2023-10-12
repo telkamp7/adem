@@ -20,6 +20,8 @@ A list containing:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Calculate and format registration delay from date of death (DoD) to date of registration (DoR).
 }
 \examples{

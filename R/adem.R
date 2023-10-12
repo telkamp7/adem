@@ -1,6 +1,9 @@
 
 #' Title
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Perform Automated Detection of Excess Mortality (ADEM) on time series death data.
 #'
 #' @param data A data frame containing the registered time series death data.
@@ -25,7 +28,6 @@
 #' @return A tibble containing model results, including predictions, thresholds, and parameter estimates.
 #' @export
 #'
-#' @importFrom rlang .data
 #'
 #' @examples
 #' # Load Monthly Deaths from Lung Disease in the UK from MASS

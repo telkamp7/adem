@@ -1,5 +1,8 @@
 #' Calculate Registration Delays
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Calculate and format registration delay from date of death (DoD) to date of registration (DoR).
 #'
 #' @param data A data frame containing the 'DoR' (date of registration) and 'DoD' (date of death) columns.

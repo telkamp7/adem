@@ -16,6 +16,8 @@ A numeric scalar for the negative log likelihood of the geometric density
 given the data and theta parameter.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+
 The negative log likelihood of a negative binomial density given the data and the theta parameter.
 }
 \details{

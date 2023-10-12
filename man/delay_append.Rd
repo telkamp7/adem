@@ -24,6 +24,8 @@ It should be either "geometric" or "negative.binomial".}
 A numeric vector containing the CDF values at the given time points.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This function calculates the cumulative distribution function (CDF) of registration delays
 based on a specified delay distribution model.
 }

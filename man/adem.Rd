@@ -58,6 +58,8 @@ Supported units include "secs", "mins", "hours", "days", "weeks", "months", and 
 A tibble containing model results, including predictions, thresholds, and parameter estimates.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Perform Automated Detection of Excess Mortality (ADEM) on time series death data.
 }
 \examples{

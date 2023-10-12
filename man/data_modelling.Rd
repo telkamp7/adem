@@ -19,6 +19,8 @@ data_modelling(data, start, end, frequency)
 data frame with formatted data, including columns for 'deaths', 'year', and 'period'.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Preprocess and format time series data for modeling.
 }
 \examples{

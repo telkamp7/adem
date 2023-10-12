@@ -1,5 +1,8 @@
 #' Fitting Generalized Linear Models
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Fit a statistical model to data using the specified distribution.
 #'
 #' @param fit_formula A formula specifying the model to be fit, e.g., y ~ x1 + x2.

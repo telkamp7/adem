@@ -1,5 +1,8 @@
 #' Geometric Negative Log Likelihood Function
 #'
+#' @description
+#' `r lifecycle::badge("stable")`
+#'
 #' The negative log likelihood of a geometric density given the data and the theta parameter.
 #'
 #' @details The geometric distribution with `prob`\eqn{= p} has density \deqn{p(x)=p(1-p)^x} for \eqn{x=0,1,2,\cdots,0<p\leq 1}.

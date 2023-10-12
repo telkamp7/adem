@@ -1,5 +1,8 @@
 #' Negative Binomial Negative Log Likelihood Function
 #'
+#' @description
+#' `r lifecycle::badge("stable")`
+#'
 #' The negative log likelihood of a negative binomial density given the data and the theta parameter.
 #'
 #' @details The negative binomial distribution with `size`\eqn{= n} and `prob`\eqn{= p} has density \deqn{p(x)=\frac{\Gamma(x+n)}{\Gamma(n)x!}p^n(1-p)^x} for \eqn{x=0,1,2,\cdots,n>0} and \eqn{0<p\leq 1}.

@@ -1,5 +1,8 @@
 #' Registration Delay Optimization
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' This function performs optimization for registration delay estimation using different delay distribution models.
 #'
 #' @param par A numeric vector of parameters to be optimized.

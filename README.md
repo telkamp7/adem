@@ -8,6 +8,8 @@
 [![R-CMD-check](https://github.com/telkamp7/adem/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/telkamp7/adem/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/telkamp7/adem/branch/main/graph/badge.svg)](https://app.codecov.io/gh/telkamp7/adem?branch=main)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 The goal of adem is to …

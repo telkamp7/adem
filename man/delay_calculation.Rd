@@ -18,6 +18,8 @@ It should be either "geometric" or "negative.binomial".}
 An optimization result object as returned by \code{stats::optim}.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 This function performs optimization for registration delay estimation using different delay distribution models.
 }
 \examples{

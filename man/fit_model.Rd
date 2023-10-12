@@ -20,6 +20,8 @@ Choose between \code{poisson} or \code{negative.binomial}.}
 An object of class \code{glm} or \code{glm.nb} depending on the chosen distribution, representing the fitted model.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Fit a statistical model to data using the specified distribution.
 }
 \examples{
