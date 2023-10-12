@@ -17,6 +17,7 @@ Imports:
     MASS,
     rlang,
     stats,
+    tibble,
     tidyr
 Suggests: 
     knitr,
@@ -25,7 +26,6 @@ Suggests:
     ISOweek,
     lubridate,
     rmarkdown,
-    testthat (>= 3.0.0),
-    tibble
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3

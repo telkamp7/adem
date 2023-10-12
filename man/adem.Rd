@@ -2,7 +2,7 @@
 % Please edit documentation in R/adem.R
 \name{adem}
 \alias{adem}
-\title{Title}
+\title{Automated Detection of Excess Mortality}
 \usage{
 adem(
   data,
@@ -55,7 +55,7 @@ It should be either "poisson" or "negative.binomial".}
 Supported units include "secs", "mins", "hours", "days", "weeks", "months", and "years".}
 }
 \value{
-A tibble containing model results, including predictions, thresholds, and parameter estimates.
+A \link[tibble:tibble-package]{tibble} containing model results, including predictions, thresholds, and parameter estimates.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}

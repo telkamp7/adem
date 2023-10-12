@@ -24,7 +24,7 @@
 #' @param units A character string specifying the time units for delay calculation.
 #'   Supported units include "secs", "mins", "hours", "days", "weeks", "months", and "years".
 #'
-#' @return A tibble containing model results, including predictions, thresholds, and parameter estimates.
+#' @return A [tibble][tibble::tibble-package] containing model results, including predictions, thresholds, and parameter estimates.
 #' @export
 #'
 #'
