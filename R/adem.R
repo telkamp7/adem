@@ -1,4 +1,4 @@
-#' Title
+#' Automated Detection of Excess Mortality
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
