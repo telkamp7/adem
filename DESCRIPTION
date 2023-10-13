@@ -15,17 +15,18 @@ Imports:
     ciTools,
     dplyr,
     lifecycle,
+    lubridate,
     magrittr,
     MASS,
     rlang,
     stats,
-    tibble
+    tibble,
+    tsibble
 Suggests: 
     knitr,
     forecast,
     ggplot2,
     ISOweek,
-    lubridate,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
