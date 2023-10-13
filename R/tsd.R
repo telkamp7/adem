@@ -1,5 +1,8 @@
 #' Create a tsibble (time-series data) object from observed data and corresponding dates.
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' This function takes observed data and the corresponding date vector and converts it into a tsibble object,
 #' which is a time series data structure that can be used for time series analysis.
 #'
@@ -30,14 +33,32 @@ tsd <- function(observed, time, time_interval = c("day", "week", "month")){
   ans <- switch(
     time_interval,
     day = tibble(time = time, observed = observed) %>%
-      dplyr::mutate(periodInYear = lubridate::yday(time)) %>%
-      tsibble::as_tsibble(index = time),
+      tsibble::build_tsibble(
+        index = time,
+        interval = tsibble::new_interval(
+          day = 1
+          )
+        ) %>%
+      tsibble::fill_gaps() %>%
+      dplyr::mutate(periodInYear = lubridate::yday(time)),
     week = tibble(time = tsibble::yearweek(time), observed = observed) %>%
-      dplyr::mutate(periodInYear = lubridate::isoweek(time)) %>%
-      tsibble::as_tsibble(index = time),
+      tsibble::build_tsibble(
+        index = time,
+        interval = tsibble::new_interval(
+          week = 1
+          )
+        ) %>%
+      tsibble::fill_gaps() %>%
+      dplyr::mutate(periodInYear = lubridate::isoweek(time)),
     month = tibble(time = tsibble::yearmonth(time), observed = observed) %>%
-      dplyr::mutate(periodInYear = lubridate::month(time)) %>%
-      tsibble::as_tsibble(index = time)
+      tsibble::build_tsibble(
+        index = time,
+        interval = tsibble::new_interval(
+          month = 1
+          )
+      ) %>%
+      tsibble::fill_gaps() %>%
+      dplyr::mutate(periodInYear = lubridate::month(time))
   )
 
   return(ans)
